@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background:
+                linear-gradient(rgba(9, 14, 24, 0.604), rgb(9, 14, 24)),
+                url("https://i.ibb.co/Y7fmYj2V/pexels-markus-winkler-1430818-4101343.jpg");
+            background-size: cover;
+            background-position: center;
+            padding: 60px 20px;
+            
+        }
+        .ir{
+            color: rgb(255, 255, 255);
+            font-family: 'Pacifico', cursive, serif;
+        }
+
+        .hero h1 {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .hero p {
+            text-align: center;
+            margin-top: 10px;
+            color: #cbd5f5;   
+            font-size: 20px;
+        }
+
+        /* APP */
+        .app {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, .1);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        /* FORM */
+        .form {
+            padding: 40px;
+        }
+
+        .form h2 {
+            margin-bottom: 20px;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: none;
+            border-radius: 10px;
+            background:linear-gradient(rgba(0, 0, 0, 0.66), rgba(6, 83, 15, 0.516));
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #f1f2f5;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #07672f, #000397);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #000397, #07672f);
+            box-shadow: 0 0 10px #dcdfdd, 0 0 20px #e6e6e6;
+        }
+
+        /* PREVIEW */
+        .preview {
+            background: rgb(255, 255, 255);
+            color: #111827;
+            padding: 40px;
+        }
+
+        .resume {
+            animation: fade 0.6s ease;
+        }
+
+        .resume h1 {
+            font-size: 32px;
+        }
+
+        .contact {
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            font-weight: 700;
+            color: rgb(0, 0, 0);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .app {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <h1 class="ir">Build a Resume That Gets You Hired</h1>
+        <p>Modern • Attractive • Professional</p>
+
+        <div class="app">
+
+            <!-- FORM -->
+            <div class="form">
+                <h2>Your Details</h2>
+                <input id="name" placeholder="Full Name">
+                <input id="email" placeholder="Email">
+                <input id="phone" placeholder="Phone">
+                <input id="address" placeholder="Location">
+                <textarea id="summary" placeholder="Professional Summary"></textarea>
+                <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+                <textarea id="education" placeholder="Education"></textarea>
+                <textarea id="experience" placeholder="Experience"></textarea>
+                <button onclick="generate()">Generate Resume</button>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="preview">
+                <div class="resume">
+                    <h1 id="rName" style="color: #000000;">Your Name</h1>
+                    <div class="contact" id="rContact" style="color: #000000;">Email • Phone • Location</div>
+
+                    <div class="section-title">Summary</div>
+                    <p id="rSummary" style="color: #000000;"></p>
+
+                    <div class="section-title">Skills</div>
+                    <ul id="rSkills" style="color: #000000;"></ul>
+
+                    <div class="section-title">Education</div>
+                    <p id="rEducation" style="color: #000000;"></p>
+
+                    <div class="section-title">Experience</div>
+                    <p id="rExperience" style="color: #000000;"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function generate() {
+            let name = nameInput();
+            let email = emailInput();
+            let phone = phoneInput();
+            let address = addressInput();
+            let summary = summaryInput();
+            let skills = skillsInput();
+            let education = educationInput();
+            let experience = experienceInput();
+
+            if (!name || !email || !phone || !address || !summary || !skills || !education || !experience) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            document.getElementById("rName").innerText = name;
+            document.getElementById("rContact").innerText = email + " | " + phone + " | " + address;
+            document.getElementById("rSummary").innerText = summary;
+            document.getElementById("rEducation").innerText = education;
+            document.getElementById("rExperience").innerText = experience;
+
+            let list = "";
+            let arr = skills.split(",");
+            for (let i = 0; i < arr.length; i++) {
+                list += "<li>" + arr[i].trim() + "</li>";
+            }
+            document.getElementById("rSkills").innerHTML = list;
+        }
+
+        function nameInput() { return document.getElementById("name").value; }
+        function emailInput() { return document.getElementById("email").value; }
+        function phoneInput() { return document.getElementById("phone").value; }
+        function addressInput() { return document.getElementById("address").value; }
+        function summaryInput() { return document.getElementById("summary").value; }
+        function skillsInput() { return document.getElementById("skills").value; }
+        function educationInput() { return document.getElementById("education").value; }
+        function experienceInput() { return document.getElementById("experience").value; }
+    </script>
+
+</body>
+
+</html>
